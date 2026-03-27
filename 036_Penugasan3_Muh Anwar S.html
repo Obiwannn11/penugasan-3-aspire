@@ -1,0 +1,1301 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LibraAspire - Perpustakaan Digital</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <style>
+      /* ═══════════════════════════════════════════
+   DESIGN TOKENS (Anwar DS + ASpire Colors)
+   ═══════════════════════════════════════════ */
+      :root {
+        --canvas: #fefefe;
+        --ink: #000000;
+        --white: #ffffff;
+        --primary: #8b1a1a;
+        --primary-muted: #fceaea;
+        --primary-dark: #6b1010;
+        --driftwood: #a69882;
+        --driftwood-muted: #ede8df;
+        --driftwood-dark: #7d7264;
+        --grey: #576974;
+        --success: #22c55e;
+        --success-text: #166534;
+        --success-bg: #dcfce7;
+        --warning: #eab308;
+        --warning-text: #854d0e;
+        --warning-bg: #fef9c3;
+        --error: #ef4444;
+        --error-text: #991b1b;
+        --error-bg: #fee2e2;
+        --shadow-sm: 3px 3px 0px 0px #000;
+        --shadow-md: 5px 5px 0px 0px #000;
+        --shadow-lg: 8px 8px 0px 0px #000;
+        --shadow-xl: 12px 12px 0px 0px #000;
+        --shadow-active: 1px 1px 0px 0px #000;
+        --border: 3px solid #000;
+        --border-thin: 2px solid #000;
+        --border-thick: 4px solid #000;
+        --radius: 3px;
+        --radius-md: 4px;
+        --radius-pill: 9999px;
+        --font: "Plus Jakarta Sans", system-ui, sans-serif;
+        --fast: 100ms ease-out;
+        --normal: 200ms ease-out;
+      }
+
+      /* ═══════════════════════════════════════════
+   RESET & BASE
+   ═══════════════════════════════════════════ */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 80px;
+      }
+      body {
+        font-family: var(--font);
+        background: var(--canvas);
+        color: var(--ink);
+        font-size: 15px;
+        font-weight: 500;
+        line-height: 1.6;
+      }
+      img {
+        max-width: 100%;
+        display: block;
+      }
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+      ul {
+        list-style: none;
+      }
+
+      .container {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 0 24px;
+      }
+
+      /* ═══════════════════════════════════════════
+   BUTTONS (DS)
+   ═══════════════════════════════════════════ */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 10px 20px;
+        border: var(--border);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow-md);
+        font-family: var(--font);
+        font-size: 13px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        cursor: pointer;
+        transition: all var(--fast);
+        min-height: 44px;
+      }
+      .btn:active {
+        transform: translate(2px, 2px);
+        box-shadow: var(--shadow-active);
+      }
+      .btn-primary {
+        background: var(--primary);
+        color: var(--white);
+      }
+      .btn-primary:hover {
+        background: var(--primary-dark);
+      }
+      .btn-outline {
+        background: var(--white);
+        color: var(--ink);
+      }
+      .btn-outline:hover {
+        background: var(--canvas);
+      }
+      .btn-lg {
+        padding: 14px 28px;
+        font-size: 14px;
+        min-height: 52px;
+      }
+
+      /* ═══════════════════════════════════════════
+   NAVBAR (DS)
+   ═══════════════════════════════════════════ */
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 24px;
+        background: var(--canvas);
+        border-bottom: var(--border);
+      }
+      .navbar-logo {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 16px;
+        font-weight: 800;
+        color: var(--ink);
+      }
+      .navbar-links {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+      .navbar-link {
+        padding: 6px 12px;
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--ink);
+        border-radius: var(--radius);
+        transition: all var(--fast);
+        border: 2px solid transparent;
+      }
+      .navbar-link:hover {
+        border-color: var(--ink);
+        background: var(--primary-muted);
+        box-shadow: var(--shadow-sm);
+      }
+      .navbar-link.active {
+        background: var(--primary);
+        color: #fff;
+        border-color: var(--ink);
+        box-shadow: var(--shadow-sm);
+      }
+      .navbar-hamburger {
+        display: none;
+        width: 36px;
+        height: 36px;
+        border: var(--border);
+        border-radius: var(--radius);
+        background: var(--white);
+        cursor: pointer;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+      }
+      .navbar-hamburger span {
+        width: 18px;
+        height: 2px;
+        background: var(--ink);
+      }
+
+      .mobile-nav {
+        display: none;
+        position: fixed;
+        top: 63px;
+        left: 0;
+        right: 0;
+        background: var(--white);
+        border-bottom: var(--border);
+        box-shadow: var(--shadow-lg);
+        z-index: 999;
+        padding: 8px;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .mobile-nav.active {
+        display: flex;
+      }
+      .mobile-nav a {
+        display: block;
+        padding: 10px 14px;
+        font-size: 14px;
+        font-weight: 700;
+        border-radius: var(--radius);
+        transition: all var(--fast);
+      }
+      .mobile-nav a:hover {
+        background: var(--primary-muted);
+      }
+
+      /* ═══════════════════════════════════════════
+   HERO
+   ═══════════════════════════════════════════ */
+      .hero {
+        padding: 120px 0 64px;
+      }
+      .hero .container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 48px;
+        align-items: center;
+      }
+      .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 5px 14px;
+        border: var(--border-thin);
+        border-radius: var(--radius-pill);
+        font-size: 11px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        background: var(--primary-muted);
+        color: var(--primary);
+        margin-bottom: 20px;
+      }
+      .hero h1 {
+        font-size: 48px;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        line-height: 1.1;
+        margin-bottom: 16px;
+      }
+      .hero h1 em {
+        font-style: italic;
+        color: var(--primary);
+      }
+      .hero-desc {
+        font-size: 15px;
+        color: var(--driftwood-dark);
+        max-width: 460px;
+        margin-bottom: 28px;
+        line-height: 1.7;
+      }
+      .hero-buttons {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      /* Hero card (DS card pattern) */
+      .hero-card {
+        background: var(--white);
+        border: var(--border);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow-lg);
+        overflow: hidden;
+      }
+      .hero-card-accent {
+        height: 6px;
+        background: var(--primary);
+      }
+      .hero-card-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 14px 16px;
+        border-bottom: var(--border);
+        background: var(--primary-muted);
+      }
+      .hero-card-info h3 {
+        font-size: 14px;
+        font-weight: 800;
+      }
+      .hero-card-info p {
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        color: var(--grey);
+      }
+      .hero-book-list {
+        display: flex;
+        flex-direction: column;
+      }
+      .hero-book-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 16px;
+        border-bottom: var(--border-thin);
+        transition: background var(--fast);
+      }
+      .hero-book-item:last-child {
+        border-bottom: none;
+      }
+      .hero-book-item:hover {
+        background: var(--primary-muted);
+      }
+      .book-meta h4 {
+        font-size: 13px;
+        font-weight: 700;
+      }
+      .book-meta p {
+        font-size: 11px;
+        color: var(--driftwood-dark);
+        font-weight: 500;
+      }
+      .book-status {
+        margin-left: auto;
+        padding: 3px 10px;
+        border: 2px solid var(--ink);
+        border-radius: var(--radius-pill);
+        font-size: 10px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+      .status-available {
+        background: var(--success-bg);
+        color: var(--success-text);
+      }
+      .status-borrowed {
+        background: var(--warning-bg);
+        color: var(--warning-text);
+      }
+
+      /* ═══════════════════════════════════════════
+   STATS BAR (DS)
+   ═══════════════════════════════════════════ */
+      .stats-section {
+        padding: 32px 0;
+      }
+      .stats-bar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 24px;
+        padding: 20px;
+        background: var(--primary);
+        border: var(--border);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow-lg);
+        flex-wrap: wrap;
+      }
+      .stats-bar-item {
+        text-align: center;
+        color: #fff;
+      }
+      .stats-bar-num {
+        font-size: 28px;
+        font-weight: 800;
+      }
+      .stats-bar-label {
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        opacity: 0.7;
+      }
+      .stats-bar-sep {
+        width: 2px;
+        height: 36px;
+        background: rgba(255, 255, 255, 0.2);
+      }
+
+      /* ═══════════════════════════════════════════
+   KATALOG
+   ═══════════════════════════════════════════ */
+      .katalog {
+        padding: 64px 0;
+      }
+      .section-label {
+        font-size: 10px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--primary);
+        margin-bottom: 4px;
+      }
+      .section-title {
+        font-size: 28px;
+        font-weight: 800;
+        letter-spacing: -0.01em;
+        line-height: 1.2;
+        margin-bottom: 8px;
+      }
+      .section-desc {
+        font-size: 14px;
+        color: var(--driftwood-dark);
+        max-width: 520px;
+        line-height: 1.6;
+        margin-bottom: 24px;
+      }
+      .katalog-header {
+        text-align: center;
+        margin-bottom: 32px;
+      }
+      .katalog-header .section-desc {
+        margin: 0 auto 24px;
+      }
+
+      /* Filter tabs (DS boxed tabs) */
+      .katalog-filters {
+        display: flex;
+        gap: 4px;
+        padding: 4px;
+        background: var(--driftwood-muted);
+        border: var(--border);
+        border-radius: var(--radius);
+        justify-content: center;
+        margin-bottom: 32px;
+        flex-wrap: wrap;
+      }
+      .filter-btn {
+        padding: 8px 16px;
+        font-family: var(--font);
+        font-size: 12px;
+        font-weight: 700;
+        cursor: pointer;
+        border-radius: var(--radius);
+        border: none;
+        background: transparent;
+        transition: all var(--fast);
+      }
+      .filter-btn:hover {
+        background: var(--white);
+      }
+      .filter-btn.active {
+        background: var(--primary);
+        color: #fff;
+        box-shadow: var(--shadow-sm);
+      }
+
+      .katalog-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 16px;
+      }
+      .book-card {
+        background: var(--white);
+        border: var(--border);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow-md);
+        overflow: hidden;
+        transition: all var(--normal);
+        cursor: pointer;
+      }
+      .book-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 7px 7px 0px 0px #000;
+      }
+      .book-cover {
+        height: 160px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-bottom: var(--border);
+      }
+      .book-cover-inner {
+        width: 70px;
+        height: 100px;
+        border: var(--border-thin);
+        border-radius: 2px 4px 4px 2px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 8px;
+        text-align: center;
+        transition: all var(--fast);
+      }
+      .book-card:hover .book-cover-inner {
+        transform: rotate(-3deg);
+        box-shadow: var(--shadow-sm);
+      }
+      .book-cover-inner .book-spine-title {
+        font-size: 8px;
+        font-weight: 800;
+        color: #fff;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        line-height: 1.3;
+      }
+      .book-card:nth-child(1) .book-cover {
+        background: var(--primary-muted);
+      }
+      .book-card:nth-child(1) .book-cover-inner {
+        background: var(--primary);
+      }
+      .book-card:nth-child(2) .book-cover {
+        background: var(--driftwood-muted);
+      }
+      .book-card:nth-child(2) .book-cover-inner {
+        background: var(--driftwood-dark);
+      }
+      .book-card:nth-child(3) .book-cover {
+        background: #f5eef8;
+      }
+      .book-card:nth-child(3) .book-cover-inner {
+        background: #7d3c98;
+      }
+      .book-card:nth-child(4) .book-cover {
+        background: var(--success-bg);
+      }
+      .book-card:nth-child(4) .book-cover-inner {
+        background: var(--success-text);
+      }
+      .book-card:nth-child(5) .book-cover {
+        background: var(--warning-bg);
+      }
+      .book-card:nth-child(5) .book-cover-inner {
+        background: var(--warning-text);
+      }
+      .book-card:nth-child(6) .book-cover {
+        background: var(--error-bg);
+      }
+      .book-card:nth-child(6) .book-cover-inner {
+        background: var(--primary);
+      }
+      .book-card:nth-child(7) .book-cover {
+        background: #e8f6f3;
+      }
+      .book-card:nth-child(7) .book-cover-inner {
+        background: #16a085;
+      }
+      .book-card:nth-child(8) .book-cover {
+        background: #dbeafe;
+      }
+      .book-card:nth-child(8) .book-cover-inner {
+        background: #1e40af;
+      }
+      .book-card-body {
+        padding: 14px 16px;
+      }
+      .book-category {
+        font-size: 9px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--primary);
+        margin-bottom: 4px;
+      }
+      .book-title {
+        font-size: 15px;
+        font-weight: 800;
+        margin-bottom: 2px;
+      }
+      .book-author {
+        font-size: 12px;
+        color: var(--driftwood-dark);
+        font-weight: 500;
+        margin-bottom: 10px;
+      }
+      .book-card-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .book-rating {
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--driftwood-dark);
+      }
+      .book-availability {
+        padding: 3px 10px;
+        border: 2px solid var(--ink);
+        border-radius: var(--radius-pill);
+        font-size: 9px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+
+      /* ═══════════════════════════════════════════
+   ABOUT
+   ═══════════════════════════════════════════ */
+      .about {
+        padding: 64px 0;
+        background: var(--driftwood-muted);
+        border-top: var(--border);
+        border-bottom: var(--border);
+      }
+      .about .container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 48px;
+        align-items: start;
+      }
+      .about-cards {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .about-card {
+        background: var(--white);
+        border: var(--border);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow-md);
+        padding: 20px;
+        border-left: 6px solid var(--primary);
+        transition: all var(--normal);
+      }
+      .about-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 7px 7px 0px 0px #000;
+      }
+      .about-card:nth-child(2) {
+        border-left-color: var(--driftwood);
+      }
+      .about-card:nth-child(3) {
+        border-left-color: var(--primary-dark);
+      }
+      .about-card h4 {
+        font-size: 15px;
+        font-weight: 800;
+        margin-bottom: 4px;
+      }
+      .about-card p {
+        font-size: 13px;
+        color: var(--driftwood-dark);
+        line-height: 1.6;
+      }
+      .about-features {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        margin-top: 28px;
+      }
+      .about-feature {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+      }
+      .about-feature-icon {
+        width: 44px;
+        height: 44px;
+        border: var(--border);
+        border-radius: var(--radius);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        flex-shrink: 0;
+        box-shadow: var(--shadow-sm);
+      }
+      .about-feature:nth-child(1) .about-feature-icon {
+        background: var(--primary);
+        color: #fff;
+      }
+      .about-feature:nth-child(2) .about-feature-icon {
+        background: var(--driftwood-muted);
+      }
+      .about-feature:nth-child(3) .about-feature-icon {
+        background: var(--primary-muted);
+      }
+      .about-feature h4 {
+        font-size: 13px;
+        font-weight: 800;
+        margin-bottom: 2px;
+      }
+      .about-feature p {
+        font-size: 12px;
+        color: var(--driftwood-dark);
+        line-height: 1.5;
+      }
+
+      /* ═══════════════════════════════════════════
+   KONTAK
+   ═══════════════════════════════════════════ */
+      .kontak {
+        padding: 64px 0;
+      }
+      .kontak .container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 48px;
+        align-items: start;
+      }
+      .kontak-detail {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        margin-top: 24px;
+      }
+      .kontak-item {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+      }
+      .kontak-item-icon {
+        width: 44px;
+        height: 44px;
+        background: var(--primary-muted);
+        border: var(--border);
+        border-radius: var(--radius);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        flex-shrink: 0;
+        box-shadow: var(--shadow-sm);
+      }
+      .kontak-item h4 {
+        font-size: 13px;
+        font-weight: 800;
+        margin-bottom: 2px;
+      }
+      .kontak-item p {
+        font-size: 13px;
+        color: var(--driftwood-dark);
+      }
+
+      /* Form (DS inputs + card) */
+      .kontak-form {
+        background: var(--white);
+        border: var(--border);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow-lg);
+        overflow: hidden;
+      }
+      .kontak-form-header {
+        padding: 14px 20px;
+        border-bottom: var(--border);
+        background: var(--primary-muted);
+      }
+      .kontak-form-header h3 {
+        font-size: 16px;
+        font-weight: 800;
+      }
+      .kontak-form-body {
+        padding: 20px;
+      }
+      .input {
+        width: 100%;
+        padding: 10px 12px;
+        background: var(--white);
+        border: var(--border);
+        border-radius: var(--radius);
+        font-family: var(--font);
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--ink);
+        outline: none;
+        min-height: 44px;
+        transition: all var(--fast);
+      }
+      .input:focus {
+        background: var(--primary-muted);
+        box-shadow: var(--shadow-sm);
+      }
+      .input::placeholder {
+        color: var(--driftwood);
+      }
+      .textarea {
+        min-height: 100px;
+        resize: vertical;
+      }
+      .input-group {
+        margin-bottom: 16px;
+      }
+      .input-label {
+        display: block;
+        font-size: 12px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin-bottom: 4px;
+      }
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      .kontak-form .btn {
+        width: 100%;
+      }
+
+      /* ═══════════════════════════════════════════
+   FOOTER (DS)
+   ═══════════════════════════════════════════ */
+      .footer-accent {
+        height: 6px;
+        background: var(--primary);
+      }
+      .footer {
+        background: var(--ink);
+        color: var(--white);
+        padding: 32px 24px 16px;
+      }
+      .footer-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+        gap: 24px;
+        margin-bottom: 24px;
+        max-width: 1120px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .footer-brand {
+        font-size: 18px;
+        font-weight: 800;
+        margin-bottom: 8px;
+      }
+      .footer-brand span {
+        color: var(--primary);
+      }
+      .footer-desc-text {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.5);
+        line-height: 1.5;
+        margin-top: 8px;
+      }
+      .footer-col-title {
+        font-size: 10px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: rgba(255, 255, 255, 0.4);
+        margin-bottom: 8px;
+      }
+      .footer-link {
+        display: block;
+        font-size: 13px;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.7);
+        padding: 3px 0;
+        transition: color var(--fast);
+      }
+      .footer-link:hover {
+        color: #fff;
+      }
+      .footer-bottom {
+        padding-top: 16px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        font-size: 11px;
+        color: rgba(255, 255, 255, 0.35);
+        max-width: 1120px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .footer-socials {
+        display: flex;
+        gap: 8px;
+      }
+      .footer-socials a {
+        width: 32px;
+        height: 32px;
+        border: 2px solid rgba(255, 255, 255, 0.15);
+        border-radius: var(--radius);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        font-weight: 800;
+        color: rgba(255, 255, 255, 0.5);
+        transition: all var(--fast);
+      }
+      .footer-socials a:hover {
+        background: var(--primary);
+        border-color: var(--primary);
+        color: #fff;
+      }
+
+      /* ═══════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════ */
+      @media (max-width: 1023px) {
+        .hero .container {
+          grid-template-columns: 1fr;
+          text-align: center;
+        }
+        .hero-desc {
+          margin: 0 auto 28px;
+        }
+        .hero-buttons {
+          justify-content: center;
+        }
+        .hero-card {
+          max-width: 420px;
+          margin: 0 auto;
+        }
+        .about .container {
+          grid-template-columns: 1fr;
+        }
+        .kontak .container {
+          grid-template-columns: 1fr;
+        }
+        .footer-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      @media (max-width: 768px) {
+        .navbar-links {
+          display: none;
+        }
+        .navbar-hamburger {
+          display: flex;
+        }
+        .hero h1 {
+          font-size: 32px;
+        }
+        .stats-bar {
+          gap: 16px;
+          padding: 16px;
+        }
+        .stats-bar-sep {
+          display: none;
+        }
+        .katalog-grid {
+          grid-template-columns: 1fr 1fr;
+          gap: 12px;
+        }
+        .form-row {
+          grid-template-columns: 1fr;
+        }
+        .footer-grid {
+          grid-template-columns: 1fr;
+          gap: 20px;
+        }
+        .footer-bottom {
+          flex-direction: column;
+          gap: 12px;
+          text-align: center;
+        }
+      }
+      @media (max-width: 480px) {
+        .katalog-grid {
+          grid-template-columns: 1fr;
+        }
+        .hero h1 {
+          font-size: 28px;
+        }
+        .stats-bar-num {
+          font-size: 22px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ═══ NAVBAR ═══ -->
+    <nav class="navbar">
+      <a href="#" class="navbar-logo"> LibraAspire </a>
+      <div class="navbar-links">
+        <a href="#home" class="navbar-link active">Beranda</a>
+        <a href="#katalog" class="navbar-link">Katalog</a>
+        <a href="#about" class="navbar-link">Tentang</a>
+        <a href="#kontak" class="navbar-link">Kontak</a>
+      </div>
+      <button class="navbar-hamburger" onclick="document.querySelector('.mobile-nav').classList.toggle('active')"><span></span><span></span><span></span></button>
+    </nav>
+    <div class="mobile-nav">
+      <a href="#home">Beranda</a>
+      <a href="#katalog">Katalog</a>
+      <a href="#about">Tentang</a>
+      <a href="#kontak">Kontak</a>
+    </div>
+
+    <!-- ═══ HERO ═══ -->
+    <section class="hero" id="home">
+      <div class="container">
+        <div class="hero-content">
+          <div class="hero-badge">LibraAspire Digital Library</div>
+          <h1>Jelajahi Dunia Melalui <em>Buku</em></h1>
+          <p class="hero-desc">Perpustakaan digital untuk komunitas ASpire Eastern Indonesia. Akses ribuan koleksi buku, jurnal, dan sumber belajar kapan saja, di mana saja.</p>
+          <div class="hero-buttons">
+            <a href="#katalog" class="btn btn-primary btn-lg">Jelajahi Katalog</a>
+            <a href="#about" class="btn btn-outline btn-lg">Tentang Kami</a>
+          </div>
+        </div>
+        <div>
+          <div class="hero-card">
+            <div class="hero-card-accent"></div>
+            <div class="hero-card-header">
+              <div class="hero-card-info">
+                <h3>Koleksi Terbaru</h3>
+                <p>Diperbarui hari ini</p>
+              </div>
+            </div>
+            <div class="hero-book-list">
+              <div class="hero-book-item">
+                <div class="book-meta">
+                  <h4>Design Thinking</h4>
+                  <p>Tim Brown</p>
+                </div>
+                <span class="book-status status-available">Tersedia</span>
+              </div>
+              <div class="hero-book-item">
+                <div class="book-meta">
+                  <h4>The Lean Startup</h4>
+                  <p>Eric Ries</p>
+                </div>
+                <span class="book-status status-borrowed">Dipinjam</span>
+              </div>
+              <div class="hero-book-item">
+                <div class="book-meta">
+                  <h4>Clean Code</h4>
+                  <p>Robert C. Martin</p>
+                </div>
+                <span class="book-status status-available">Tersedia</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ STATS ═══ -->
+    <section class="stats-section">
+      <div class="container">
+        <div class="stats-bar">
+          <div class="stats-bar-item">
+            <div class="stats-bar-num">2,500+</div>
+            <div class="stats-bar-label">Koleksi Buku</div>
+          </div>
+          <div class="stats-bar-sep"></div>
+          <div class="stats-bar-item">
+            <div class="stats-bar-num">850+</div>
+            <div class="stats-bar-label">Anggota Aktif</div>
+          </div>
+          <div class="stats-bar-sep"></div>
+          <div class="stats-bar-item">
+            <div class="stats-bar-num">12</div>
+            <div class="stats-bar-label">Kategori</div>
+          </div>
+          <div class="stats-bar-sep"></div>
+          <div class="stats-bar-item">
+            <div class="stats-bar-num">24/7</div>
+            <div class="stats-bar-label">Akses Digital</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ KATALOG ═══ -->
+    <section class="katalog" id="katalog">
+      <div class="container">
+        <div class="katalog-header">
+          <div class="section-label">Katalog Buku</div>
+          <h2 class="section-title">Temukan Bacaan Favoritmu</h2>
+          <p class="section-desc">Jelajahi koleksi buku dari berbagai kategori, mulai dari teknologi, bisnis, sains, hingga literatur klasik.</p>
+        </div>
+        <div class="katalog-filters">
+          <button class="filter-btn active">Semua</button>
+          <button class="filter-btn">Teknologi</button>
+          <button class="filter-btn">Bisnis</button>
+          <button class="filter-btn">Sains</button>
+          <button class="filter-btn">Literatur</button>
+        </div>
+        <div class="katalog-grid">
+          <div class="book-card">
+            <div class="book-cover">
+              <div class="book-cover-inner"><span class="book-spine-title">Design Thinking</span></div>
+            </div>
+            <div class="book-card-body">
+              <div class="book-category">Bisnis</div>
+              <h3 class="book-title">Change by Design</h3>
+              <p class="book-author">Tim Brown</p>
+              <div class="book-card-footer"><span class="book-rating">⭐ 4.5</span><span class="book-availability status-available">Tersedia</span></div>
+            </div>
+          </div>
+          <div class="book-card">
+            <div class="book-cover">
+              <div class="book-cover-inner"><span class="book-spine-title">AI & ML</span></div>
+            </div>
+            <div class="book-card-body">
+              <div class="book-category">Teknologi</div>
+              <h3 class="book-title">Hands-On Machine Learning</h3>
+              <p class="book-author">Aurélien Géron</p>
+              <div class="book-card-footer"><span class="book-rating">⭐ 4.8</span><span class="book-availability status-available">Tersedia</span></div>
+            </div>
+          </div>
+          <div class="book-card">
+            <div class="book-cover">
+              <div class="book-cover-inner"><span class="book-spine-title">Brief History</span></div>
+            </div>
+            <div class="book-card-body">
+              <div class="book-category">Sains</div>
+              <h3 class="book-title">A Brief History of Time</h3>
+              <p class="book-author">Stephen Hawking</p>
+              <div class="book-card-footer"><span class="book-rating">⭐ 4.7</span><span class="book-availability status-borrowed">Dipinjam</span></div>
+            </div>
+          </div>
+          <div class="book-card">
+            <div class="book-cover">
+              <div class="book-cover-inner"><span class="book-spine-title">Lean Startup</span></div>
+            </div>
+            <div class="book-card-body">
+              <div class="book-category">Bisnis</div>
+              <h3 class="book-title">The Lean Startup</h3>
+              <p class="book-author">Eric Ries</p>
+              <div class="book-card-footer"><span class="book-rating">⭐ 4.4</span><span class="book-availability status-available">Tersedia</span></div>
+            </div>
+          </div>
+          <div class="book-card">
+            <div class="book-cover">
+              <div class="book-cover-inner"><span class="book-spine-title">Clean Code</span></div>
+            </div>
+            <div class="book-card-body">
+              <div class="book-category">Teknologi</div>
+              <h3 class="book-title">Clean Code</h3>
+              <p class="book-author">Robert C. Martin</p>
+              <div class="book-card-footer"><span class="book-rating">⭐ 4.6</span><span class="book-availability status-available">Tersedia</span></div>
+            </div>
+          </div>
+          <div class="book-card">
+            <div class="book-cover">
+              <div class="book-cover-inner"><span class="book-spine-title">Bumi Manusia</span></div>
+            </div>
+            <div class="book-card-body">
+              <div class="book-category">Literatur</div>
+              <h3 class="book-title">Bumi Manusia</h3>
+              <p class="book-author">Pramoedya Ananta Toer</p>
+              <div class="book-card-footer"><span class="book-rating">⭐ 4.9</span><span class="book-availability status-available">Tersedia</span></div>
+            </div>
+          </div>
+          <div class="book-card">
+            <div class="book-cover">
+              <div class="book-cover-inner"><span class="book-spine-title">Sapiens</span></div>
+            </div>
+            <div class="book-card-body">
+              <div class="book-category">Sains</div>
+              <h3 class="book-title">Sapiens</h3>
+              <p class="book-author">Yuval Noah Harari</p>
+              <div class="book-card-footer"><span class="book-rating">⭐ 4.7</span><span class="book-availability status-borrowed">Dipinjam</span></div>
+            </div>
+          </div>
+          <div class="book-card">
+            <div class="book-cover">
+              <div class="book-cover-inner"><span class="book-spine-title">DMMT</span></div>
+            </div>
+            <div class="book-card-body">
+              <div class="book-category">Teknologi</div>
+              <h3 class="book-title">Don't Make Me Think</h3>
+              <p class="book-author">Steve Krug</p>
+              <div class="book-card-footer"><span class="book-rating">⭐ 4.5</span><span class="book-availability status-available">Tersedia</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ ABOUT ═══ -->
+    <section class="about" id="about">
+      <div class="container">
+        <div class="about-cards">
+          <div class="about-card">
+            <h4>Misi Kami</h4>
+            <p>Menyediakan akses sumber belajar berkualitas untuk seluruh komunitas ASpire di Indonesia Timur.</p>
+          </div>
+          <div class="about-card">
+            <h4>Kolaborasi</h4>
+            <p>Inisiatif bersama ITS Surabaya dan Konsulat Jenderal AS di Surabaya.</p>
+          </div>
+          <div class="about-card">
+            <h4>Dampak Sosial</h4>
+            <p>Membangun generasi yang siap menghadapi tantangan global dengan solusi etis dan inovatif.</p>
+          </div>
+        </div>
+        <div class="about-content">
+          <div class="section-label">Tentang Kami</div>
+          <h2 class="section-title">LibraAspire, Perpustakaan untuk Masa Depan</h2>
+          <p class="section-desc">
+            LibraAspire adalah perpustakaan digital yang dibangun untuk mendukung program ASpire. Eastern Indonesia App Challenge. Kami percaya bahwa akses terhadap ilmu pengetahuan adalah fondasi dari solusi digital yang bermakna.
+          </p>
+          <div class="about-features">
+            <div class="about-feature">
+              <div class="about-feature-icon">📚</div>
+              <div>
+                <h4>Koleksi Beragam</h4>
+                <p>Buku teknologi, bisnis, sains, dan literatur dalam satu platform.</p>
+              </div>
+            </div>
+            <div class="about-feature">
+              <div class="about-feature-icon">🔍</div>
+              <div>
+                <h4>Pencarian Cerdas</h4>
+                <p>Temukan buku yang kamu butuhkan dengan cepat dan akurat.</p>
+              </div>
+            </div>
+            <div class="about-feature">
+              <div class="about-feature-icon">📱</div>
+              <div>
+                <h4>Akses di Mana Saja</h4>
+                <p>Responsif dan optimal di semua perangkat, kapan pun kamu butuhkan.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ KONTAK ═══ -->
+    <section class="kontak" id="kontak">
+      <div class="container">
+        <div class="kontak-info">
+          <div class="section-label">Kontak</div>
+          <h2 class="section-title">Hubungi Kami</h2>
+          <p class="section-desc">Punya pertanyaan atau saran? Kami senang mendengar dari kamu. Hubungi tim LibraAspire kapan saja.</p>
+          <div class="kontak-detail">
+            <div class="kontak-item">
+              <div class="kontak-item-icon">📍</div>
+              <div>
+                <h4>Alamat</h4>
+                <p>Kampus ITS, Sukolilo, Surabaya<br />Jawa Timur 60111</p>
+              </div>
+            </div>
+            <div class="kontak-item">
+              <div class="kontak-item-icon">✉️</div>
+              <div>
+                <h4>Email</h4>
+                <p>libraaspire@its.ac.id</p>
+              </div>
+            </div>
+            <div class="kontak-item">
+              <div class="kontak-item-icon">📞</div>
+              <div>
+                <h4>Telepon</h4>
+                <p>+62 31 5994 251</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="kontak-form">
+          <div class="kontak-form-header"><h3>Kirim Pesan</h3></div>
+          <div class="kontak-form-body">
+            <div class="form-row">
+              <div class="input-group"><label class="input-label">Nama Lengkap</label><input class="input" placeholder="Masukkan nama" /></div>
+              <div class="input-group"><label class="input-label">Email</label><input class="input" type="email" placeholder="nama@email.com" /></div>
+            </div>
+            <div class="input-group"><label class="input-label">Subjek</label><input class="input" placeholder="Tentang apa?" /></div>
+            <div class="input-group"><label class="input-label">Pesan</label><textarea class="input textarea" placeholder="Tulis pesanmu di sini..."></textarea></div>
+            <button class="btn btn-primary btn-lg">Kirim Pesan</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ FOOTER ═══ -->
+    <div class="footer-accent"></div>
+    <footer class="footer">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand">Libra<span>Aspire</span></div>
+          <p class="footer-desc-text">Perpustakaan digital untuk komunitas ASpire. Eastern Indonesia App Challenge. Dibangun oleh peserta ASpire dengan semangat inovasi.</p>
+        </div>
+        <div>
+          <div class="footer-col-title">Navigasi</div>
+          <a href="#home" class="footer-link">Beranda</a><a href="#katalog" class="footer-link">Katalog</a><a href="#about" class="footer-link">Tentang</a><a href="#kontak" class="footer-link">Kontak</a>
+        </div>
+        <div>
+          <div class="footer-col-title">Kategori</div>
+          <a href="#" class="footer-link">Teknologi</a><a href="#" class="footer-link">Bisnis</a><a href="#" class="footer-link">Sains</a><a href="#" class="footer-link">Literatur</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 LibraAspire - ASpire Eastern Indonesia App Challenge</p>
+        <div class="footer-socials"><a href="#" title="Instagram">IG</a><a href="#" title="Twitter">X</a><a href="#" title="LinkedIn">in</a></div>
+      </div>
+    </footer>
+  </body>
+</html>
